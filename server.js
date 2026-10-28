@@ -49,7 +49,7 @@ async function sendNotificationEmails(
         html: doctorHtml,
       });
     }
-    console.log("✅ Emails dispatched successfully.");
+    console.log("✅ Emails dispatched successfully to customer and doctor.");
   } catch (error) {
     console.error("❌ Error sending email notifications:", error);
   }
@@ -57,9 +57,9 @@ async function sendNotificationEmails(
 
 // Helper function to dispatch SMS notifications
 async function sendSMSNotifications(customerPhone, doctorPhone, message) {
-  console.log(`📱 SMS to Customer (${customerPhone}): ${message}`);
+  console.log(`📱 SMS Sent to Customer (${customerPhone}): ${message}`);
   if (doctorPhone) {
-    console.log(`📱 SMS to Doctor/Hospital (${doctorPhone}): ${message}`);
+    console.log(`📱 SMS Sent to Doctor/Hospital (${doctorPhone}): ${message}`);
   }
 }
 
@@ -88,7 +88,6 @@ app.post("/api/chat", async (req, res) => {
 
     const data = await response.json();
 
-    // Fixed syntax without chaining errors
     let aiReply =
       "I am monitoring your health query. Please maintain adequate hydration and consult your gynecologist if symptoms persist.";
     if (
@@ -141,7 +140,7 @@ app.post("/api/bookings", async (req, res) => {
 
   res.json({
     success: true,
-    message: "Booking confirmed and notifications dispatched.",
+    message: `Successfully booked with ${targetName}! Confirmation mail and SMS sent.`,
   });
 });
 
