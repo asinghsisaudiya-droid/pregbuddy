@@ -12,11 +12,10 @@ app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 5000;
 
-// Serve static assets from both root and public directories
 app.use(express.static(path.join(__dirname)));
 app.use(express.static(path.join(__dirname, "public")));
 
-// Configure Nodemailer Transporter for Email Notifications
+// Nodemailer setup
 const transporter = nodemailer.createTransport({
   service: process.env.EMAIL_SERVICE || "gmail",
   auth: {
@@ -25,7 +24,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Helper function to send emails to customer and doctor
 async function sendNotificationEmails(
   recipientEmail,
   doctorEmail,
@@ -40,7 +38,6 @@ async function sendNotificationEmails(
       subject: `[Jannani] ${subject}`,
       html: customerHtml,
     });
-
     if (doctorEmail) {
       await transporter.sendMail({
         from: `"Jannani Emergency Dispatch" <${process.env.EMAIL_USER}>`,
@@ -49,21 +46,17 @@ async function sendNotificationEmails(
         html: doctorHtml,
       });
     }
-    console.log("✅ Emails dispatched successfully to customer and doctor.");
   } catch (error) {
-    console.error("❌ Error sending email notifications:", error);
+    console.error("Email error:", error);
   }
 }
 
-// Helper function to dispatch SMS notifications
 async function sendSMSNotifications(customerPhone, doctorPhone, message) {
-  console.log(`📱 SMS Sent to Customer (${customerPhone}): ${message}`);
-  if (doctorPhone) {
-    console.log(`📱 SMS Sent to Doctor/Hospital (${doctorPhone}): ${message}`);
-  }
+  console.log(`SMS to Customer (${customerPhone}): ${message}`);
+  if (doctorPhone) console.log(`SMS to Doctor (${doctorPhone}): ${message}`);
 }
 
-// ================= 1. AI CHATBOT ENDPOINT (Gemini API) =================
+// AI Chatbot Proxy Endpoint
 app.post("/api/chat", async (req, res) => {
   const { prompt } = req.body;
   try {
@@ -87,7 +80,6 @@ app.post("/api/chat", async (req, res) => {
     });
 
     const data = await response.json();
-
     let aiReply =
       "I am monitoring your health query. Please maintain adequate hydration and consult your gynecologist if symptoms persist.";
     if (
@@ -100,17 +92,15 @@ app.post("/api/chat", async (req, res) => {
     ) {
       aiReply = data.candidates[0].content.parts[0].text;
     }
-
     res.json({ reply: aiReply });
   } catch (err) {
-    console.error("Gemini API Error:", err);
     res
       .status(500)
       .json({ error: "Failed to connect to PregBuddy AI engine." });
   }
 });
 
-// ================= 2. APPOINTMENT & BED BOOKING ENDPOINT =================
+// Bookings & Dual Notifications
 app.post("/api/bookings", async (req, res) => {
   const {
     customerName,
@@ -120,9 +110,8 @@ app.post("/api/bookings", async (req, res) => {
     bookingType,
     slotDate,
   } = req.body;
-
-  const customerHtml = `<h2>Hello ${customerName},</h2><p>Your booking for <strong>${targetName}</strong> (${bookingType}) has been confirmed.</p><p>Date: ${slotDate || "Immediate"}</p><p>Thank you for trusting Jannani PregBuddy.</p>`;
-  const doctorHtml = `<h3>New Patient Appointment / Reservation</h3><p>Patient: <strong>${customerName}</strong></p><p>Phone: ${customerPhone}</p><p>Service: ${targetName} (${bookingType})</p>`;
+  const customerHtml = `<h2>Hello ${customerName},</h2><p>Your booking for <strong>${targetName}</strong> (${bookingType}) has been confirmed.</p>`;
+  const doctorHtml = `<h3>New Patient Appointment</h3><p>Patient: <strong>${customerName}</strong> (${customerPhone}) for ${targetName}</p>`;
 
   await sendNotificationEmails(
     customerEmail || "patient@example.com",
@@ -131,44 +120,41 @@ app.post("/api/bookings", async (req, res) => {
     customerHtml,
     doctorHtml,
   );
-
   await sendSMSNotifications(
     customerPhone || "+919876543210",
     "+919876599999",
-    `Booking confirmed with ${targetName}. Check your email for details.`,
+    `Booking confirmed with ${targetName}.`,
   );
 
   res.json({
     success: true,
-    message: `Successfully booked with ${targetName}! Confirmation mail and SMS sent.`,
+    message: `Successfully booked with ${targetName}! Confirmation sent via email & SMS.`,
   });
 });
 
-// ================= 3. EMERGENCY SOS DISPATCH ENDPOINT =================
+// SOS Emergency Trigger
 app.post("/api/sos", async (req, res) => {
   const { customerName, customerPhone, gpsCoords } = req.body;
-
-  const customerHtml = `<h2>🚨 SOS EMERGENCY TRIGGERED</h2><p>Dear ${customerName}, our emergency response team has received your SOS alert at GPS coordinates: <strong>${gpsCoords}</strong>.</p><p>Ambulance 108 has been notified and nearby hospital emergency OT is preparing your arrival.</p>`;
-  const doctorHtml = `<h2>🚨 CRITICAL EMERGENCY ALERT (SOS)</h2><p>Patient: <strong>${customerName}</strong></p><p>Phone: ${customerPhone}</p><p>GPS Location: <strong>${gpsCoords}</strong></p><p>Status: Emergency OT reservation triggered.</p>`;
+  const customerHtml = `<h2>🚨 SOS EMERGENCY TRIGGERED</h2><p>Dear ${customerName}, emergency alert received at GPS: <strong>${gpsCoords}</strong>. Ambulance 108 notified.</p>`;
+  const doctorHtml = `<h2>🚨 CRITICAL EMERGENCY ALERT</h2><p>Patient: ${customerName} (${customerPhone}) at GPS: ${gpsCoords}</p>`;
 
   await sendNotificationEmails(
     "patient@example.com",
     "emergency.ot@fortislafemme.com",
-    `URGENT SOS EMERGENCY - ${customerName}`,
+    `URGENT SOS - ${customerName}`,
     customerHtml,
     doctorHtml,
   );
-
   await sendSMSNotifications(
     customerPhone || "+919876543210",
     "+919876511111",
-    `EMERGENCY SOS: Location ${gpsCoords} broadcasted to ambulance 108 & hospital OT.`,
+    `EMERGENCY SOS: Location ${gpsCoords} broadcasted.`,
   );
 
   res.json({ success: true, message: "SOS emergency broadcast successful." });
 });
 
-// ================= 4. FORUM ENDPOINTS =================
+// Forum Endpoints
 let forumPostsStore = [
   {
     name: "Ananya S.",
@@ -185,36 +171,24 @@ let forumPostsStore = [
   },
 ];
 
-app.get("/api/forum", (req, res) => {
-  res.json(forumPostsStore);
-});
-
+app.get("/api/forum", (req, res) => res.json(forumPostsStore));
 app.post("/api/forum", (req, res) => {
   const { name, tri, content } = req.body;
-  const newPost = {
+  forumPostsStore.unshift({
     name: name || "Anonymous Mom",
     tri: tri || "General Support",
     time: "Just now",
     content,
-  };
-  forumPostsStore.unshift(newPost);
+  });
   res.json({ success: true, posts: forumPostsStore });
 });
 
-// Fallback route to serve index.html safely from public/ or root
 app.get("*", (req, res) => {
   const publicHtml = path.join(__dirname, "public", "index.html");
   const rootHtml = path.join(__dirname, "index.html");
-
-  if (fs.existsSync(publicHtml)) {
-    res.sendFile(publicHtml);
-  } else if (fs.existsSync(rootHtml)) {
-    res.sendFile(rootHtml);
-  } else {
-    res.status(404).send("Error: index.html not found on server.");
-  }
+  if (fs.existsSync(publicHtml)) res.sendFile(publicHtml);
+  else if (fs.existsSync(rootHtml)) res.sendFile(rootHtml);
+  else res.status(404).send("Error: index.html not found.");
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Jannani Backend Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

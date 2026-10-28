@@ -103,7 +103,7 @@
         </div>
     </div>
 
-    <!-- MAIN APP BODY -->
+    <!-- MAIN APP CONTAINER -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         <!-- HOME -->
@@ -135,42 +135,27 @@
 
         <!-- HOSPITALS -->
         <section id="sec-hospitals" class="hidden space-y-6">
-            <div class="flex justify-between items-center">
-                <div>
-                    <h2 class="font-serif font-bold text-3xl text-slate-900">Emergency & Delivery Hospitals</h2>
-                    <p class="text-slate-500 text-sm">Sorted in real-time based on your current GPS location coordinates</p>
-                </div>
-            </div>
+            <h2 class="font-serif font-bold text-3xl text-slate-900">Emergency & Delivery Hospitals</h2>
             <div class="grid md:grid-cols-3 gap-6" id="hospitalGrid"></div>
         </section>
 
         <!-- DOCTORS -->
         <section id="sec-doctors" class="hidden space-y-6">
-            <div>
-                <h2 class="font-serif font-bold text-3xl text-slate-900">Verified Gynecologists & Obstetricians</h2>
-                <p class="text-slate-500 text-sm">Schedule instant consultations with automated dual messaging</p>
-            </div>
+            <h2 class="font-serif font-bold text-3xl text-slate-900">Verified Gynecologists & Obstetricians</h2>
             <div class="grid md:grid-cols-3 gap-6" id="doctorGrid"></div>
         </section>
 
         <!-- YOGA & DIET -->
         <section id="sec-yoga" class="hidden space-y-8">
-            <div>
-                <h2 class="font-serif font-bold text-3xl text-slate-900">Prenatal Yoga & Dietitians</h2>
-                <p class="text-slate-500 text-sm">Book tailored meal plans with certified maternal nutritionists</p>
-            </div>
+            <h2 class="font-serif font-bold text-3xl text-slate-900">Prenatal Yoga & Dietitians</h2>
             <div class="grid md:grid-cols-2 gap-6" id="dietitianGrid"></div>
         </section>
 
         <!-- MOM FORUM -->
         <section id="sec-forum" class="hidden space-y-6">
             <div class="flex justify-between items-center">
-                <div>
-                    <h2 class="font-serif font-bold text-3xl text-slate-900">Heart to Heart Mom Forum</h2>
-                </div>
-                <button onclick="openNewPostModal()" class="bg-maternal-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md">
-                    + New Post
-                </button>
+                <h2 class="font-serif font-bold text-3xl text-slate-900">Heart to Heart Mom Forum</h2>
+                <button onclick="openNewPostModal()" class="bg-maternal-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md">+ New Post</button>
             </div>
             <div class="space-y-4" id="forumPostsContainer"></div>
         </section>
@@ -184,9 +169,7 @@
                 <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-50">
                     <div class="flex items-start gap-3">
                         <div class="w-8 h-8 rounded-full bg-maternal-600 text-white flex items-center justify-center text-xs font-bold">AI</div>
-                        <div class="bg-white p-4 rounded-2xl border shadow-sm text-sm text-slate-700">
-                            Hello! I am your PregBuddy AI health advisor. Ask me anything about your pregnancy symptoms!
-                        </div>
+                        <div class="bg-white p-4 rounded-2xl border shadow-sm text-sm text-slate-700">Hello! I am your PregBuddy AI health advisor. Ask me anything!</div>
                     </div>
                 </div>
                 <div class="p-4 bg-white border-t flex items-center gap-2">
@@ -198,9 +181,7 @@
 
         <!-- RISK RADAR -->
         <section id="sec-risk-radar" class="hidden space-y-6">
-            <div>
-                <h2 class="font-serif font-bold text-3xl text-slate-900">Maternal ML Risk Radar</h2>
-            </div>
+            <h2 class="font-serif font-bold text-3xl text-slate-900">Maternal ML Risk Radar</h2>
             <div class="bg-white p-6 rounded-2xl border shadow-sm space-y-4 max-w-xl">
                 <label class="block text-xs font-bold text-slate-700">Systolic BP</label>
                 <input type="number" id="riskSystolic" value="120" class="w-full p-2 border rounded-lg">
@@ -209,38 +190,29 @@
         </section>
     </main>
 
-    <!-- BOOKING CONFIRMATION MODAL -->
+    <!-- MODALS -->
     <div id="bookingModal" class="fixed inset-0 bg-slate-900/60 z-50 hidden backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
-            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-xl mx-auto">
-                <i class="fa-solid fa-calendar-check"></i>
-            </div>
+            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-xl mx-auto"><i class="fa-solid fa-calendar-check"></i></div>
             <h3 id="bookingModalTitle" class="font-serif font-bold text-xl text-slate-900">Booking Confirmed</h3>
             <p id="bookingModalDetail" class="text-xs text-slate-500">Confirmation mail & SMS successfully sent to doctor and customer.</p>
-            <button onclick="closeBookingModal()" class="w-full bg-slate-900 text-white py-2.5 rounded-xl font-bold text-sm">
-                Close
-            </button>
+            <button onclick="closeBookingModal()" class="w-full bg-slate-900 text-white py-2.5 rounded-xl font-bold text-sm">Close</button>
         </div>
     </div>
 
-    <!-- NEW POST MODAL -->
     <div id="newPostModal" class="fixed inset-0 bg-slate-900/60 z-50 hidden backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="font-serif font-bold text-xl text-slate-900">Create New Community Post</h3>
-                <button onclick="closeNewPostModal()" class="text-slate-400"><i class="fa-solid fa-xmark"></i></button>
-            </div>
+            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-serif font-bold text-xl">New Post</h3><button onclick="closeNewPostModal()"><i class="fa-solid fa-xmark"></i></button></div>
             <input type="text" id="postAuthor" placeholder="Your Name" class="w-full p-2.5 border rounded-xl text-sm">
             <textarea id="postContent" rows="4" placeholder="Type your message..." class="w-full p-2.5 border rounded-xl text-sm"></textarea>
             <button onclick="submitForumPost()" class="w-full bg-maternal-600 text-white py-3 rounded-xl font-bold text-sm">Post</button>
         </div>
     </div>
 
-    <!-- AUTH MODAL -->
     <div id="authModal" class="fixed inset-0 bg-slate-900/60 z-50 hidden backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative space-y-4">
-            <button onclick="closeAuthModal()" class="absolute right-5 top-5 text-slate-400"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="font-serif font-bold text-2xl text-slate-900 text-center">Sign In / Register</h3>
+            <button onclick="closeAuthModal()" class="absolute right-5 top-5"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="font-serif font-bold text-2xl text-center">Sign In / Register</h3>
             <input type="text" id="authNameInput" placeholder="Priya Sharma" class="w-full px-4 py-2.5 border rounded-xl text-sm">
             <input type="email" id="authEmail" placeholder="priya@example.com" class="w-full px-4 py-2.5 border rounded-xl text-sm">
             <input type="tel" id="authPhone" placeholder="+919876543210" class="w-full px-4 py-2.5 border rounded-xl text-sm">
@@ -248,12 +220,10 @@
         </div>
     </div>
 
-    <!-- CLIENT ENGINE -->
+    <!-- SCRIPT ENGINE -->
     <script>
         let currentUser = JSON.parse(localStorage.getItem('jannani_user')) || { name: "Priya Sharma", email: "priya@example.com", phone: "+919876543210" };
-        let currentLat = 28.4595;
-        let currentLng = 77.0266;
-        let currentGpsText = "28.4595, 77.0266 (Delhi, India)";
+        let currentLat = 28.4595, currentLng = 77.0266, currentGpsText = "28.4595, 77.0266 (Delhi, India)";
 
         const hospitalsData = [
             { name: "Fortis La Femme Hospital", lat: 28.5562, lng: 77.2288, bed: "4 Emergency OT Beds Available", phone: "+91 11 4122 2222", tag: "24/7 OT Ready" },
@@ -273,7 +243,6 @@
         ];
 
         window.onload = function() {
-            updateAuthUI();
             updateGPSLocation();
             renderDoctors();
             renderDietitians();
@@ -287,143 +256,99 @@
             document.getElementById(`sec-${id}`).classList.remove('hidden');
         }
 
-        function toggleMobileDrawer() { document.getElementById('mobileDrawer').classList.toggle('hidden'); }
-
-        // Haversine formula to compute accurate distance from GPS coords
         function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371; // Radius of earth in km
+            const R = 6371;
             const dLat = (lat2 - lat1) * Math.PI / 180;
             const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return (R * c).toFixed(1);
+            const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
+            return (2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))).toFixed(1);
         }
 
         function updateGPSLocation() {
-            const locText = document.getElementById('currentLocationText');
             if(navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     pos => {
-                        currentLat = pos.coords.latitude;
-                        currentLng = pos.coords.longitude;
+                        currentLat = pos.coords.latitude; currentLng = pos.coords.longitude;
                         currentGpsText = `${currentLat.toFixed(4)}, ${currentLng.toFixed(4)}`;
-                        locText.innerText = `GPS Synced: ${currentGpsText}`;
+                        document.getElementById('currentLocationText').innerText = `GPS Synced: ${currentGpsText}`;
                         renderHospitals();
                     },
-                    err => {
-                        locText.innerText = `GPS Active: ${currentGpsText}`;
-                        renderHospitals();
-                    }
+                    err => { renderHospitals(); }
                 );
-            } else {
-                renderHospitals();
-            }
+            } else { renderHospitals(); }
         }
 
         function renderHospitals() {
-            // Sort hospitals dynamically by distance from user GPS
-            const sortedHospitals = hospitalsData.map(h => {
-                const distKm = calculateDistance(currentLat, currentLng, h.lat, h.lng);
-                return { ...h, distNum: parseFloat(distKm), distStr: `${distKm} km away` };
-            }).sort((a, b) => a.distNum - b.distNum);
+            const sorted = hospitalsData.map(h => ({
+                ...h, dist: calculateDistance(currentLat, currentLng, h.lat, h.lng)
+            })).sort((a,b) => a.dist - b.dist);
 
-            const container = document.getElementById('hospitalGrid');
-            container.innerHTML = sortedHospitals.map(h => `
-                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
-                    <div class="flex justify-between items-start">
-                        <span class="px-2.5 py-1 bg-rose-100 text-maternal-800 text-[10px] font-bold rounded-md">${h.tag}</span>
-                        <span class="text-xs font-semibold text-maternal-600"><i class="fa-solid fa-location-arrow"></i> ${h.distStr}</span>
-                    </div>
-                    <h3 class="font-bold text-slate-800 text-lg">${h.name}</h3>
-                    <p class="text-xs text-emerald-600 font-bold"><i class="fa-solid fa-bed"></i> ${h.bed}</p>
-                    <div class="pt-2 flex gap-2">
-                        <button onclick="triggerBooking('${h.name}')" class="flex-1 bg-maternal-600 text-white py-2 rounded-xl text-xs font-bold hover:bg-maternal-700">Reserve Bed</button>
-                        <a href="tel:${h.phone}" class="p-2 border rounded-xl text-slate-600 hover:text-maternal-600 text-xs flex items-center justify-center"><i class="fa-solid fa-phone"></i></a>
-                    </div>
+            document.getElementById('hospitalGrid').innerHTML = sorted.map(h => `
+                <div class="bg-white rounded-2xl p-6 border shadow-sm space-y-4">
+                    <div class="flex justify-between"><span class="px-2.5 py-1 bg-rose-100 text-maternal-800 text-[10px] font-bold rounded-md">${h.tag}</span><span class="text-xs font-semibold text-maternal-600">${h.dist} km away</span></div>
+                    <h3 class="font-bold text-lg">${h.name}</h3>
+                    <p class="text-xs text-emerald-600 font-bold">${h.bed}</p>
+                    <button onclick="triggerBooking('${h.name}')" class="w-full bg-maternal-600 text-white py-2 rounded-xl text-xs font-bold">Reserve Bed</button>
                 </div>
             `).join('');
         }
 
         function renderDoctors() {
-            const container = document.getElementById('doctorGrid');
-            container.innerHTML = doctorsData.map(d => `
-                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
-                    <h4 class="font-bold text-slate-800 text-base">${d.name}</h4>
-                    <p class="text-xs text-slate-500">${d.spec}</p>
+            document.getElementById('doctorGrid').innerHTML = doctorsData.map(d => `
+                <div class="bg-white rounded-2xl p-6 border shadow-sm space-y-4">
+                    <h4 class="font-bold text-base">${d.name}</h4><p class="text-xs text-slate-500">${d.spec}</p>
                     <button onclick="triggerBooking('${d.name}')" class="w-full bg-slate-900 text-white py-2.5 rounded-xl text-xs font-bold">Book Consultation</button>
                 </div>
             `).join('');
         }
 
         function renderDietitians() {
-            const container = document.getElementById('dietitianGrid');
-            container.innerHTML = dietitiansData.map(dt => `
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <h4 class="font-bold text-slate-800 text-base">${dt.name}</h4>
-                        <p class="text-xs text-maternal-700 font-semibold">${dt.spec}</p>
-                    </div>
+            document.getElementById('dietitianGrid').innerHTML = dietitiansData.map(dt => `
+                <div class="bg-white p-5 rounded-2xl border shadow-sm flex items-center justify-between">
+                    <div><h4 class="font-bold text-base">${dt.name}</h4><p class="text-xs text-maternal-700">${dt.spec}</p></div>
                     <button onclick="triggerBooking('${dt.name}')" class="bg-maternal-100 text-maternal-800 px-4 py-2 rounded-xl text-xs font-bold">Book Plan</button>
                 </div>
             `).join('');
         }
 
-        // FULL BACKEND BOOKING WITH WINDOW ALERT & MODAL POPUP
         async function triggerBooking(targetName) {
-            const user = currentUser || { name: "Priya Sharma", email: "priya@example.com", phone: "+919876543210" };
-
             try {
                 const res = await fetch('/api/bookings', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        customerName: user.name,
-                        customerEmail: user.email,
-                        customerPhone: user.phone,
-                        targetName: targetName,
-                        bookingType: "Consultation / Reservation",
-                        slotDate: "Immediate / Next Available"
-                    })
+                    body: JSON.stringify({ customerName: currentUser.name, customerEmail: currentUser.email, customerPhone: currentUser.phone, targetName, bookingType: "Consultation" })
                 });
                 const data = await res.json();
-                
-                // Show Popup Modal & Browser Alert
-                document.getElementById('bookingModalTitle').innerText = "Booking Confirmed!";
                 document.getElementById('bookingModalDetail').innerText = data.message;
                 document.getElementById('bookingModal').classList.remove('hidden');
                 alert(`✅ SUCCESS: ${data.message}`);
             } catch(e) {
-                alert(`✅ Successfully booked with ${targetName}! Confirmation email & SMS dispatched.`);
+                alert(`Successfully booked with ${targetName}!`);
             }
         }
 
         function closeBookingModal() { document.getElementById('bookingModal').classList.add('hidden'); }
 
         async function triggerSOS() {
-            document.getElementById('sosEmergencyModal')?.classList.remove('hidden');
             document.getElementById('activeSosHeaderBanner').classList.remove('hidden');
-
-            const user = currentUser || { name: "Priya Sharma", phone: "+919876543210" };
-            try {
-                await fetch('/api/sos', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ customerName: user.name, customerPhone: user.phone, gpsCoords: currentGpsText })
-                });
-            } catch(e) {}
+            await fetch('/api/sos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ customerName: currentUser.name, customerPhone: currentUser.phone, gpsCoords: currentGpsText })
+            });
+            alert("🚨 EMERGENCY SOS BROADCASTED TO 108 AND HOSPITAL OT!");
         }
+        function deactivateSosBanner() { document.getElementById('activeSosHeaderBanner').classList.add('hidden'); }
 
         async function loadForumPosts() {
-            try {
-                const res = await fetch('/api/forum');
-                const posts = await res.json();
-                document.getElementById('forumPostsContainer').innerHTML = posts.map(p => `
-                    <div class="bg-white p-6 rounded-2xl border shadow-sm space-y-2">
-                        <div class="flex justify-between text-xs"><span class="font-bold">${p.name}</span><span class="text-rose-600 font-semibold">${p.tri}</span></div>
-                        <p class="text-sm text-slate-700">${p.content}</p>
-                    </div>
-                `).join('');
-            } catch (e) {}
+            const res = await fetch('/api/forum');
+            const posts = await res.json();
+            document.getElementById('forumPostsContainer').innerHTML = posts.map(p => `
+                <div class="bg-white p-6 rounded-2xl border shadow-sm space-y-2">
+                    <div class="flex justify-between text-xs"><span class="font-bold">${p.name}</span><span class="text-rose-600">${p.tri}</span></div>
+                    <p class="text-sm text-slate-700">${p.content}</p>
+                </div>
+            `).join('');
         }
 
         function openNewPostModal() { document.getElementById('newPostModal').classList.remove('hidden'); }
@@ -470,7 +395,6 @@
             closeAuthModal();
             alert("✅ Signed in successfully!");
         }
-        function updateAuthUI() {}
     </script>
 </body>
 </html>
